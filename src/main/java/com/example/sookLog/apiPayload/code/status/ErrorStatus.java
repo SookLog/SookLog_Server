@@ -6,7 +6,6 @@ import com.example.sookLog.apiPayload.code.BaseErrorCode;
 import com.example.sookLog.apiPayload.code.ErrorReasonDTO;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
