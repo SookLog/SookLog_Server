@@ -29,4 +29,10 @@ public class Member {
 
 	private String profileImageUrl;
 
+	private String refreshToken;
+
+	public void updateRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
+	}
+
 }
