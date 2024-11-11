@@ -8,4 +8,8 @@ import com.example.sookLog.oauth.entity.ProviderType;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 	Optional<Member> findByProviderIdAndProviderType(String providerId, ProviderType providerType);
+
+	Optional<Member> findByRefreshToken(String accessToken);
+
+	Optional<Member> findByName(String name);
 }

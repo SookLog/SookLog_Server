@@ -9,12 +9,16 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.example.sookLog.apiPayload.exception.handler.OAuth2FailureHandler;
 import com.example.sookLog.apiPayload.exception.handler.OAuth2SuccessHandler;
+import com.example.sookLog.jwt.TokenAuthenticationFilter;
+import com.example.sookLog.jwt.TokenProvider;
 import com.example.sookLog.oauth.service.CustomOAuth2UserService;
+import com.example.sookLog.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +29,12 @@ public class SecurityConfig {
 	private final OAuth2SuccessHandler successHandler;
 	private final OAuth2FailureHandler failureHandler;
 	private final CustomOAuth2UserService customOAuthService;
+	private final MemberRepository memberRepository;
+
+	@Bean
+	public TokenProvider jwtTokenProvider() {
+		return new TokenProvider(memberRepository);
+	}
 
 
 	@Bean
@@ -49,7 +59,7 @@ public class SecurityConfig {
 				.requestMatchers("/test", "/swagger-ui/index.html", "/swagger-ui/**", "/v3/api-docs/**","/swagger-resources/**", "/v3/api-docs").permitAll()
 				.anyRequest().authenticated()           // 나머지 URL은 인증 필요
 			)
-			// .addFilterBefore(new JwtVerifyFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(new TokenAuthenticationFilter(jwtTokenProvider()), UsernamePasswordAuthenticationFilter.class)
 			.formLogin(FormLoginConfigurer::disable)
 			// OAuth 로그인 설정
 			.oauth2Login(customConfigurer -> customConfigurer
