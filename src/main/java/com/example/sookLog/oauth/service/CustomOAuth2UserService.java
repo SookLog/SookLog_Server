@@ -43,8 +43,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		// OAuth2UserInfo를 통해 특정 Provider에 맞는 사용자 정보를 가져옴
 		OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, attributes);
 
+		// 사용자 정보 조회 시 providerId 사용
+		String providerId = oAuth2UserInfo.getProviderId();
+
 		// 사용자 정보를 확인하고, 없는 경우 새로 저장
-		Member member = getOrCreateMember(providerType, oAuth2UserInfo);
+		Member member = getOrCreateMember(providerId,providerType, oAuth2UserInfo);
 
 		// 권한 설정 (기본 권한 USER로 설정)
 		List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
@@ -54,12 +57,13 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 	}
 
 	// DB에서 사용자 정보를 조회하거나 없는 경우 새로 생성
-	private Member getOrCreateMember(ProviderType providerType, OAuth2UserInfo oAuth2UserInfo) {
-		Optional<Member> memberOptional = memberRepository.findByNameAndProviderType(oAuth2UserInfo.getName(), providerType);
+	private Member getOrCreateMember(String providerId, ProviderType providerType, OAuth2UserInfo oAuth2UserInfo) {
+		Optional<Member> memberOptional = memberRepository.findByProviderIdAndProviderType(providerId, providerType);
 
 		return memberOptional.orElseGet(() -> {
 			Member newMember = Member.builder()
 				.name(oAuth2UserInfo.getName())
+				.providerId(providerId)
 				.profileImageUrl(oAuth2UserInfo.getProfileImageUrl())
 				.providerType(providerType)
 				.build();
