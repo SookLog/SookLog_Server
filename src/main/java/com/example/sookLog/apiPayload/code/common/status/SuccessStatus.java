@@ -1,9 +1,9 @@
-package com.example.sookLog.apiPayload.code.status;
+package com.example.sookLog.apiPayload.code.common.status;
 
 import org.springframework.http.HttpStatus;
 
-import com.example.sookLog.apiPayload.code.BaseCode;
-import com.example.sookLog.apiPayload.code.ReasonDTO;
+import com.example.sookLog.apiPayload.code.common.BaseCode;
+import com.example.sookLog.apiPayload.code.common.ReasonDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
