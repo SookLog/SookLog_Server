@@ -17,6 +17,7 @@ public class DiaryDTO {
 	public static class DiaryRequest  {
 
 		private String title;
+		private String weather;
 		private String content;
 		private String feeling;
 	}

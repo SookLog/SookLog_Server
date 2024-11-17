@@ -40,4 +40,19 @@ public class Diary {
 	@JoinColumn(name = "member_id")
 	private Member member;
 
+	private Diary(String title, String content, String weather, String feeling, Member member) {
+		this.dateTime = LocalDateTime.now(); // 생성 시점의 현재 시간으로 설정
+		this.title = title;
+		this.content = content;
+		this.weather = weather;
+		this.feeling = feeling;
+		this.member = member;
+	}
+
+	public static Diary from(String title, String content, String weather, String feeling, Member member) {
+		return new Diary(title, content, weather, feeling, member);
+	}
+
+
+
 }
