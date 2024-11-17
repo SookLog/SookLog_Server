@@ -39,4 +39,19 @@ public class DiaryService {
 		diaryRepository.save(diary);
 	}
 
+	public DiaryResponse getDiaryById(Long id) {
+		// ID로 Diary 조회, 없으면 예외 발생
+		Diary diary = diaryRepository.findById(id)
+			.orElseThrow(() -> new IllegalArgumentException("Diary not found with ID: " + id));
+
+		// Diary를 DiaryResponse로 변환하여 반환
+		return new DiaryResponse(
+			diary.getId(),
+			diary.getTitle(),
+			diary.getContent(),
+			diary.getWeather(),
+			diary.getFeeling(),
+			diary.getDateTime()
+		);
+	}
 }
