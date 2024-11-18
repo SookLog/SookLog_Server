@@ -1,4 +1,4 @@
-package com.example.sookLog.domain;
+package com.example.sookLog.domain.member.domain;
 
 import com.example.sookLog.oauth.entity.ProviderType;
 

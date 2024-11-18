@@ -1,4 +1,5 @@
 package com.example.sookLog.apiPayload.exception;
+
 import com.example.sookLog.apiPayload.code.BaseErrorCode;
 import com.example.sookLog.apiPayload.code.ErrorReasonDTO;
 

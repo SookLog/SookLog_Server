@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import com.example.sookLog.domain.Member;
+import com.example.sookLog.domain.member.domain.Member;
 import com.example.sookLog.oauth.entity.ProviderType;
 import com.example.sookLog.oauth.entity.UserPrincipal;
 import com.example.sookLog.oauth.info.OAuth2UserInfo;
 import com.example.sookLog.oauth.info.OAuth2UserInfoFactory;
-import com.example.sookLog.repository.MemberRepository;
+import com.example.sookLog.domain.member.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

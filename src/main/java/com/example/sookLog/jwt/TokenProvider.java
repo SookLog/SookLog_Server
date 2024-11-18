@@ -16,8 +16,8 @@ import org.springframework.util.StringUtils;
 import io.jsonwebtoken.Claims;
 import javax.crypto.SecretKey;
 import org.springframework.security.core.GrantedAuthority;
-import com.example.sookLog.domain.Member;
-import com.example.sookLog.repository.MemberRepository;
+import com.example.sookLog.domain.member.domain.Member;
+import com.example.sookLog.domain.member.repository.MemberRepository;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
