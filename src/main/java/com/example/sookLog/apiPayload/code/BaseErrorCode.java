@@ -1,4 +1,4 @@
-package com.example.sookLog.apiPayload.code.common;
+package com.example.sookLog.apiPayload.code;
 
 public interface BaseErrorCode {
 

@@ -1,4 +1,4 @@
-package com.example.sookLog.apiPayload.code.common;
+package com.example.sookLog.apiPayload.code;
 
 import org.springframework.http.HttpStatus;
 
@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ErrorReasonDTO {
+public class ReasonDTO {
 	private String message;
 	private String code;
 	private Boolean isSuccess;
 	private HttpStatus httpStatus;
 }
+
