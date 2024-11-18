@@ -1,5 +1,9 @@
 package com.example.sookLog.domain.diary.service;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,6 +12,7 @@ import com.example.sookLog.domain.diary.domain.Diary;
 import com.example.sookLog.domain.diary.dto.DiaryDTO;
 import com.example.sookLog.domain.diary.repository.DiaryRepository;
 import com.example.sookLog.domain.member.repository.MemberRepository;
+import com.example.sookLog.domain.sentimentAnalysis.service.SentimentAnalysisService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DiaryService {
 	private final DiaryRepository diaryRepository;
 	private final MemberRepository memberRepository;
-	//String feeling = sentimentAnalysisService.analyzeSentiment(request.getContent());
+	private final SentimentAnalysisService sentimentAnalysisService;
 	public Member findMemberById(Long memberId) {
 		return memberRepository.findById(memberId)
 			.orElseThrow(() -> new IllegalArgumentException("Member not found with ID: " + memberId));
@@ -44,7 +49,7 @@ public class DiaryService {
 		diaryRepository.save(diary);
 
 		// 감정 분석 후 feeling 업데이트
-		//	String feeling = sentimentAnalysisService.analyzeSentiment(request.getContent());
+		String feeling = sentimentAnalysisService.analyzeSentiment(request.getContent());
 		diary.updateFeeling("feeling"); // 저장 후 감정 업데이트
 	}
 
@@ -64,4 +69,33 @@ public class DiaryService {
 		);
 	}
 
+	@Transactional
+	public void updateFeeling(Long diaryId, String feeling) {
+		Diary diary = diaryRepository.findById(diaryId)
+			.orElseThrow(() -> new IllegalArgumentException("Diary not found with ID: " + diaryId));
+
+		diary.updateFeeling(feeling); // 감정 업데이트
+	}
+
+	public int getPositiveDiaryCountModulo() {
+		// "긍정" 상태의 다이어리 개수 가져오기
+		long positiveCount = diaryRepository.countByFeeling("행복");
+
+		// 긍정 개수를 10으로 나눈 나머지를 반환
+		return (int) (positiveCount % 10);
+	}
+
+	public List<DiaryDTO.FeelingResponse> getMonthlyFeelings(int year, int month) {
+		// 시작일과 종료일 계산
+		LocalDate startDate = LocalDate.of(year, month, 1);
+		LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
+
+		// 해당 월의 일기 가져오기
+		List<Diary> diaries = diaryRepository.findByDateTimeBetween(startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
+
+		// Diary 엔티티를 DTO로 변환
+		return diaries.stream()
+			.map(diary -> new DiaryDTO.FeelingResponse(diary.getDateTime().toLocalDate(), diary.getFeeling()))
+			.collect(Collectors.toList());
+	}
 }
