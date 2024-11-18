@@ -72,4 +72,12 @@ public class DiaryService {
 
 		diary.updateFeeling(feeling); // 감정 업데이트
 	}
+
+	public int getPositiveDiaryCountModulo() {
+		// "긍정" 상태의 다이어리 개수 가져오기
+		long positiveCount = diaryRepository.countByFeeling("행복");
+
+		// 긍정 개수를 10으로 나눈 나머지를 반환
+		return (int) (positiveCount % 10);
+	}
 }
