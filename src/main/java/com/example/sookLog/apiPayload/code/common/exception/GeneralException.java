@@ -1,6 +1,6 @@
-package com.example.sookLog.apiPayload.exception;
-import com.example.sookLog.apiPayload.code.BaseErrorCode;
-import com.example.sookLog.apiPayload.code.ErrorReasonDTO;
+package com.example.sookLog.apiPayload.code.common.exception;
+import com.example.sookLog.apiPayload.code.common.BaseErrorCode;
+import com.example.sookLog.apiPayload.code.common.ErrorReasonDTO;
 
 import lombok.Getter;
 
