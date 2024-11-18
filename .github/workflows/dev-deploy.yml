@@ -61,4 +61,7 @@ jobs:
                             -e DB_USER=${{ secrets.DB_USER }} \
                             -e DB_PASSWORD=${{ secrets.DB_PW }} \
                             -e EC2_HOST=${{ secrets.EC2_HOST }} \
+                            -e KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }} \
+                            -e KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }} \
+                            -e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
                             --name sooklog-server -p 8080:8080 -d ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
