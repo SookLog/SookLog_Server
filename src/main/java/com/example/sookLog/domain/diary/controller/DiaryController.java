@@ -2,6 +2,7 @@ package com.example.sookLog.domain.diary.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,5 +45,14 @@ public class DiaryController {
 	public ResponseEntity<ApiResponse<DiaryDTO.DiaryResponse>> getDiaryById(@PathVariable Long id) {
 		DiaryDTO.DiaryResponse diary = diaryService.getDiaryById(id);
 		return ResponseEntity.ok(ApiResponse.onSuccess(diary));
+	}
+
+	@PatchMapping("/{id}/feeling")
+	public ResponseEntity<ApiResponse<Void>> updateFeeling(
+		@PathVariable Long id,
+		@RequestParam String feeling
+	) {
+		diaryService.updateFeeling(id, feeling);
+		return ResponseEntity.ok(ApiResponse.onSuccess(null));
 	}
 }

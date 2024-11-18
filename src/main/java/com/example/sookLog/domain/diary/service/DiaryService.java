@@ -8,6 +8,7 @@ import com.example.sookLog.domain.diary.domain.Diary;
 import com.example.sookLog.domain.diary.dto.DiaryDTO;
 import com.example.sookLog.domain.diary.repository.DiaryRepository;
 import com.example.sookLog.domain.member.repository.MemberRepository;
+import com.example.sookLog.domain.sentimentAnalysis.service.SentimentAnalysisService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DiaryService {
 	private final DiaryRepository diaryRepository;
 	private final MemberRepository memberRepository;
-	//String feeling = sentimentAnalysisService.analyzeSentiment(request.getContent());
+	private final SentimentAnalysisService sentimentAnalysisService;
 	public Member findMemberById(Long memberId) {
 		return memberRepository.findById(memberId)
 			.orElseThrow(() -> new IllegalArgumentException("Member not found with ID: " + memberId));
@@ -44,7 +45,7 @@ public class DiaryService {
 		diaryRepository.save(diary);
 
 		// 감정 분석 후 feeling 업데이트
-		//	String feeling = sentimentAnalysisService.analyzeSentiment(request.getContent());
+		String feeling = sentimentAnalysisService.analyzeSentiment(request.getContent());
 		diary.updateFeeling("feeling"); // 저장 후 감정 업데이트
 	}
 
@@ -64,4 +65,11 @@ public class DiaryService {
 		);
 	}
 
+	@Transactional
+	public void updateFeeling(Long diaryId, String feeling) {
+		Diary diary = diaryRepository.findById(diaryId)
+			.orElseThrow(() -> new IllegalArgumentException("Diary not found with ID: " + diaryId));
+
+		diary.updateFeeling(feeling); // 감정 업데이트
+	}
 }
