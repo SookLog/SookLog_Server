@@ -17,32 +17,28 @@ public class DiaryDTO {
 	public static class DiaryRequest  {
 
 		private String title;
-		private String weather;
 		private String content;
-		private String feeling;
+		private String weather; // 사용자 입력 필드
+		private LocalDateTime dateTime;
 	}
 	@Getter
 	@AllArgsConstructor
 	public static class DiaryResponse  {
 		private Long id;
 		private String title;
-		private String content;
 		private String weather;
+		private String content;
 		private String feeling;
 		private LocalDateTime dateTime;
 
 
-	public static DiaryResponse from(Diary diary) {
-		return new DiaryResponse(
-			diary.getId(),
-			diary.getTitle(),
-			diary.getContent(),
-			diary.getWeather(),
-			diary.getFeeling(),
-			diary.getDateTime()
-		);
+		public DiaryResponse(Long id, String title, String content,  LocalDateTime dateTime) {
+			this.id = id;
+			this.title = title;
+			this.content = content;
+			this.dateTime = dateTime;
+		}
 	}
 }
 
 
-}

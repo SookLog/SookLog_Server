@@ -12,6 +12,7 @@ import com.example.sookLog.apiPayload.code.domains.diary.domain.Diary;
 import com.example.sookLog.apiPayload.code.domains.diary.dto.DiaryDTO;
 import com.example.sookLog.apiPayload.code.domains.diary.repository.DiaryRepository;
 import com.example.sookLog.apiPayload.code.domains.member.domain.Member;
+import com.example.sookLog.apiPayload.code.domains.member.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,20 +24,34 @@ import lombok.extern.slf4j.Slf4j;
 public class DiaryService {
 
 	private final DiaryRepository diaryRepository;
-
+	private final MemberRepository memberRepository;
+	//String feeling = sentimentAnalysisService.analyzeSentiment(request.getContent());
+	public Member findMemberById(Long memberId) {
+		return memberRepository.findById(memberId)
+			.orElseThrow(() -> new IllegalArgumentException("Member not found with ID: " + memberId));
+	}
 	@Transactional
 	public void createDiary(DiaryRequest request, Member member) {
-		// 정적 팩토리 메서드를 사용해 Diary 객체 생성
-		Diary diary = Diary.from(
+		// 사용자 입력값으로 Diary 생성
+		/*Diary diary = Diary.from(
 			request.getTitle(),
 			request.getContent(),
 			request.getWeather(),
-			request.getFeeling(),
 			member
 		);
 
 		// Diary 저장
+		diaryRepository.save(diary);*/
+		//Member member = new Member("Test User");
+		memberRepository.save(member); // Member를 먼저 저장
+
+		// Diary 생성 및 저장
+		Diary diary = Diary.from(request.getTitle(), request.getContent(),request.getWeather(),member);
 		diaryRepository.save(diary);
+
+		// 감정 분석 후 feeling 업데이트
+	//	String feeling = sentimentAnalysisService.analyzeSentiment(request.getContent());
+		diary.updateFeeling("feeling"); // 저장 후 감정 업데이트
 	}
 
 	public DiaryResponse getDiaryById(Long id) {

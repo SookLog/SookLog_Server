@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.sookLog.apiPayload.code.common.ApiResponse;
 import com.example.sookLog.apiPayload.code.domains.diary.service.DiaryService;
 import com.example.sookLog.apiPayload.code.domains.member.domain.Member;
+import com.example.sookLog.apiPayload.code.domains.member.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,14 +24,21 @@ import lombok.RequiredArgsConstructor;
 public class DiaryController {
 
 	private final DiaryService diaryService;
-
+	private final MemberRepository memberRepository;
 	@PostMapping
 	public ResponseEntity<ApiResponse<Void>> createDiary(
 		@RequestBody DiaryRequest request,
-		@RequestParam Member member
+		@RequestParam Long memberId
 	) {
+		//임시
+		//Member member = new Member("Test User");
 		//	Member member = memberLoader.getMember();
+	//	Member member = diaryService.findMemberById(memberId);
+		Member member = memberRepository.findById(memberId)
+			.orElseThrow(() -> new IllegalArgumentException("Member not found with ID: " + memberId));
+
 		diaryService.createDiary(request, member);
+
 		return ResponseEntity.ok(ApiResponse.onSuccess(null));
 	}
 

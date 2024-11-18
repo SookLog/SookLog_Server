@@ -41,7 +41,7 @@ public class Diary {
 	private Member member;
 
 	private Diary(String title, String content, String weather, String feeling, Member member) {
-		this.dateTime = LocalDateTime.now(); // 생성 시점의 현재 시간으로 설정
+		this.dateTime = LocalDateTime.now(); // 생성 시간 설정
 		this.title = title;
 		this.content = content;
 		this.weather = weather;
@@ -49,9 +49,23 @@ public class Diary {
 		this.member = member;
 	}
 
-	public static Diary from(String title, String content, String weather, String feeling, Member member) {
-		return new Diary(title, content, weather, feeling, member);
+	public static Diary from(String title, String content, String weather, Member member) {
+		return new Diary(title, content, weather, "Pending", member); // 기본 feeling 값은 "Pending"
 	}
+
+	public void updateFeeling(String feeling) {
+		this.feeling = feeling; // 감정 분석 결과로 feeling 업데이트
+	}
+
+	public void setMember(Member member) {
+		this.member = member;
+	}
+
+	public boolean isPositive() {
+		return "positive".equalsIgnoreCase(this.feeling);
+	}
+
+
 
 
 
