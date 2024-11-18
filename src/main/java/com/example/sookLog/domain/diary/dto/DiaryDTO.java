@@ -1,5 +1,6 @@
 package com.example.sookLog.domain.diary.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.example.sookLog.domain.diary.domain.Diary;
@@ -36,5 +37,12 @@ public class DiaryDTO {
 			this.content = content;
 			this.dateTime = dateTime;
 		}
+	}
+
+	@Getter
+	@AllArgsConstructor
+	public static class FeelingResponse {
+		private LocalDate date;    // 일기 작성 날짜
+		private String feeling;    // 감정
 	}
 }

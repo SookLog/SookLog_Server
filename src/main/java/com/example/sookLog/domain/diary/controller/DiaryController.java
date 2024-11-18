@@ -1,5 +1,7 @@
 package com.example.sookLog.domain.diary.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -54,5 +56,14 @@ public class DiaryController {
 	) {
 		diaryService.updateFeeling(id, feeling);
 		return ResponseEntity.ok(ApiResponse.onSuccess(null));
+	}
+
+	@GetMapping("/monthly-feelings")
+	public ResponseEntity<ApiResponse<List<DiaryDTO.FeelingResponse>>> getMonthlyFeelings(
+		@RequestParam int year,
+		@RequestParam int month
+	) {
+		List<DiaryDTO.FeelingResponse> feelings = diaryService.getMonthlyFeelings(year, month);
+		return ResponseEntity.ok(ApiResponse.onSuccess(feelings));
 	}
 }

@@ -1,5 +1,9 @@
 package com.example.sookLog.domain.diary.service;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,5 +83,19 @@ public class DiaryService {
 
 		// 긍정 개수를 10으로 나눈 나머지를 반환
 		return (int) (positiveCount % 10);
+	}
+
+	public List<DiaryDTO.FeelingResponse> getMonthlyFeelings(int year, int month) {
+		// 시작일과 종료일 계산
+		LocalDate startDate = LocalDate.of(year, month, 1);
+		LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
+
+		// 해당 월의 일기 가져오기
+		List<Diary> diaries = diaryRepository.findByDateTimeBetween(startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
+
+		// Diary 엔티티를 DTO로 변환
+		return diaries.stream()
+			.map(diary -> new DiaryDTO.FeelingResponse(diary.getDateTime().toLocalDate(), diary.getFeeling()))
+			.collect(Collectors.toList());
 	}
 }
