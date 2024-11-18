@@ -29,7 +29,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 		"/login",
 		"/swagger-ui/**",
 		"/v3/api-docs/**",
-		"/swagger-ui/index.html", "/swagger-ui/**", "/v3/api-docs/**","/swagger-resources/**", "/v3/api-docs"
+		"/swagger-ui/index.html",
+		"/swagger-ui/**",
+		"/v3/api-docs/**",
+		"/swagger-resources/**",
+		"/v3/api-docs",
+		"/webjars/**"
 	);
 
 	@Override
@@ -86,6 +91,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	private boolean isExcludedUrl(String requestURI) {
-		return EXCLUDED_URLS.stream().anyMatch(requestURI::startsWith);
+		return EXCLUDED_URLS.stream()
+			.anyMatch(pattern -> requestURI.matches(pattern.replace("**", ".*")));
 	}
 }
