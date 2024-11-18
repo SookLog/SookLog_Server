@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import com.example.sookLog.apiPayload.ApiResponse;
+import com.example.sookLog.apiPayload.code.ApiResponse;
 import com.example.sookLog.apiPayload.code.ErrorReasonDTO;
 import com.example.sookLog.apiPayload.code.status.ErrorStatus;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;

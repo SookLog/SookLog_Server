@@ -18,7 +18,7 @@ import com.example.sookLog.apiPayload.exception.handler.OAuth2SuccessHandler;
 import com.example.sookLog.jwt.TokenAuthenticationFilter;
 import com.example.sookLog.jwt.TokenProvider;
 import com.example.sookLog.oauth.service.CustomOAuth2UserService;
-import com.example.sookLog.repository.MemberRepository;
+import com.example.sookLog.domain.member.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 

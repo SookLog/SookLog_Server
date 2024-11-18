@@ -1,6 +1,5 @@
-package com.example.sookLog.apiPayload;
+package com.example.sookLog.apiPayload.code;
 
-import com.example.sookLog.apiPayload.code.BaseCode;
 import com.example.sookLog.apiPayload.code.status.SuccessStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
