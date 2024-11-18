@@ -26,8 +26,8 @@ public class DiaryDTO {
 	public static class DiaryResponse  {
 		private Long id;
 		private String title;
-		private String weather;
 		private String content;
+		private String weather;
 		private String feeling;
 		private LocalDateTime dateTime;
 
