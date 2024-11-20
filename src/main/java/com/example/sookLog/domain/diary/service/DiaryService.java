@@ -50,7 +50,7 @@ public class DiaryService {
 	}
 
 	@Transactional
-	public void createDiaryWithFeeling(DiaryDTO.DiaryRequest request, Member member) {
+	public DiaryDTO.ModelResponse createDiaryWithFeeling(DiaryDTO.DiaryRequest request, Member member) {
 		// 감정 분석 모델 호출
 		String feeling = sentimentAnalysisService.analyzeSentiment(request.getContent());
 
@@ -58,6 +58,8 @@ public class DiaryService {
 		Diary diary = Diary.from(request.getTitle(), request.getContent(), request.getWeather(), member);
 		diary.updateFeeling(feeling); // 감정을 저장
 		diaryRepository.save(diary);
+
+		return new DiaryDTO.ModelResponse(feeling);
 	}
 
 	public DiaryDTO.DiaryResponse getDiaryById(Long id) {

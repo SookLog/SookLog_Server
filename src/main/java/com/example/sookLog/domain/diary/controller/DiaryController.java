@@ -30,7 +30,7 @@ public class DiaryController {
 
 
 	@PostMapping
-	public ResponseEntity<ApiResponse<Void>> createDiary(
+	public ResponseEntity<ApiResponse<DiaryDTO.ModelResponse>> createDiary(
 		@RequestBody DiaryDTO.DiaryRequest request,
 		@RequestParam Long memberId
 	) {
@@ -38,9 +38,9 @@ public class DiaryController {
 			.orElseThrow(() -> new IllegalArgumentException("Member not found with ID: " + memberId));
 
 		// 다이어리를 생성하고 감정 분석 후 저장
-		diaryService.createDiaryWithFeeling(request, member);
+		DiaryDTO.ModelResponse modelResponse = diaryService.createDiaryWithFeeling(request, member);
 
-		return ResponseEntity.ok(ApiResponse.onSuccess(null));
+		return ResponseEntity.ok(ApiResponse.onSuccess(modelResponse));
 	}
 
 	@GetMapping("/{id}")
