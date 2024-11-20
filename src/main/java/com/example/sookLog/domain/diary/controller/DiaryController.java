@@ -1,5 +1,6 @@
 package com.example.sookLog.domain.diary.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -65,5 +66,17 @@ public class DiaryController {
 	) {
 		List<DiaryDTO.FeelingResponse> feelings = diaryService.getMonthlyFeelings(year, month);
 		return ResponseEntity.ok(ApiResponse.onSuccess(feelings));
+	}
+
+
+	@GetMapping("/image")
+	public ResponseEntity<ApiResponse<String>> getImageByDate(
+		@RequestParam LocalDate date
+	) {
+		// 서비스 호출로 이미지 URL 생성
+		String imageUrl = diaryService.getImageForDate(date);
+
+		// 응답 반환
+		return ResponseEntity.ok(ApiResponse.onSuccess(imageUrl));
 	}
 }

@@ -1,6 +1,8 @@
 package com.example.sookLog.domain.diary.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +14,7 @@ import com.example.sookLog.domain.diary.domain.Diary;
 import com.example.sookLog.domain.diary.dto.DiaryDTO;
 import com.example.sookLog.domain.diary.repository.DiaryRepository;
 import com.example.sookLog.domain.member.repository.MemberRepository;
+import com.example.sookLog.domain.openAI.service.OpenAIService;
 import com.example.sookLog.domain.sentimentAnalysis.service.SentimentAnalysisService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,10 +28,27 @@ public class DiaryService {
 	private final DiaryRepository diaryRepository;
 	private final MemberRepository memberRepository;
 	private final SentimentAnalysisService sentimentAnalysisService;
-	public Member findMemberById(Long memberId) {
-		return memberRepository.findById(memberId)
-			.orElseThrow(() -> new IllegalArgumentException("Member not found with ID: " + memberId));
+	private final OpenAIService openAIService;
+
+	public String getImageForDate(LocalDate date) {
+		// 날짜 범위 생성
+		LocalDateTime startOfDay = date.atStartOfDay();
+		LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
+
+		// 해당 날짜의 일기 찾기
+		List<Diary> diaries = diaryRepository.findByDateTimeBetween(startOfDay, endOfDay);
+
+		if (diaries.isEmpty()) {
+			throw new IllegalArgumentException("No diary entry found for the given date.");
+		}
+
+		// 첫 번째 일기의 감정 가져오기
+		String feeling = diaries.get(0).getFeeling();
+
+		// OpenAI API 호출하여 이미지 URL 반환
+		return openAIService.generateImage(feeling);
 	}
+
 	@Transactional
 	public void createDiary(DiaryDTO.DiaryRequest request, Member member) {
 		// 사용자 입력값으로 Diary 생성
@@ -79,7 +99,7 @@ public class DiaryService {
 
 	public int getPositiveDiaryCountModulo() {
 		// "긍정" 상태의 다이어리 개수 가져오기
-		long positiveCount = diaryRepository.countByFeeling("행복");
+		long positiveCount = diaryRepository.countByFeeling("happy");
 
 		// 긍정 개수를 10으로 나눈 나머지를 반환
 		return (int) (positiveCount % 10);
