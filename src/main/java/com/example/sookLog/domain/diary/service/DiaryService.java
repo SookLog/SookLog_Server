@@ -50,27 +50,14 @@ public class DiaryService {
 	}
 
 	@Transactional
-	public void createDiary(DiaryDTO.DiaryRequest request, Member member) {
-		// 사용자 입력값으로 Diary 생성
-		/*Diary diary = Diary.from(
-			request.getTitle(),
-			request.getContent(),
-			request.getWeather(),
-			member
-		);
-
-		// Diary 저장
-		diaryRepository.save(diary);*/
-		//Member member = new Member("Test User");
-		memberRepository.save(member); // Member를 먼저 저장
-
-		// Diary 생성 및 저장
-		Diary diary = Diary.from(request.getTitle(), request.getContent(),request.getWeather(),member);
-		diaryRepository.save(diary);
-
-		// 감정 분석 후 feeling 업데이트
+	public void createDiaryWithFeeling(DiaryDTO.DiaryRequest request, Member member) {
+		// 감정 분석 모델 호출
 		String feeling = sentimentAnalysisService.analyzeSentiment(request.getContent());
-		diary.updateFeeling("feeling"); // 저장 후 감정 업데이트
+
+		// 다이어리 생성 및 저장
+		Diary diary = Diary.from(request.getTitle(), request.getContent(), request.getWeather(), member);
+		diary.updateFeeling(feeling); // 감정을 저장
+		diaryRepository.save(diary);
 	}
 
 	public DiaryDTO.DiaryResponse getDiaryById(Long id) {

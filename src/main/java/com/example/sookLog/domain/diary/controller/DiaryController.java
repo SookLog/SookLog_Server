@@ -27,19 +27,18 @@ import lombok.RequiredArgsConstructor;
 public class DiaryController {
 	private final DiaryService diaryService;
 	private final MemberRepository memberRepository;
+
+
 	@PostMapping
 	public ResponseEntity<ApiResponse<Void>> createDiary(
 		@RequestBody DiaryDTO.DiaryRequest request,
 		@RequestParam Long memberId
 	) {
-		//임시
-		//Member member = new Member("Test User");
-		//	Member member = memberLoader.getMember();
-		//	Member member = diaryService.findMemberById(memberId);
 		Member member = memberRepository.findById(memberId)
 			.orElseThrow(() -> new IllegalArgumentException("Member not found with ID: " + memberId));
 
-		diaryService.createDiary(request, member);
+		// 다이어리를 생성하고 감정 분석 후 저장
+		diaryService.createDiaryWithFeeling(request, member);
 
 		return ResponseEntity.ok(ApiResponse.onSuccess(null));
 	}
