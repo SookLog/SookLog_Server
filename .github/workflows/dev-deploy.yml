@@ -64,4 +64,6 @@ jobs:
                             -e KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }} \
                             -e KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }} \
                             -e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
+                            -e OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
+                            -e OPENAI_URL=${{ secrets.OPENAI_URL }} \
                             --name sooklog-server -p 8080:8080 -d ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}

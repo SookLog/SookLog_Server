@@ -37,3 +37,7 @@ spring:
 
 jwt:
   key: ${JWT_SECRET_KEY}
+
+openai:
+  api-key: ${OPENAI_API_KEY}
+  url: ${OPENAI_URL}

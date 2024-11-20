@@ -10,5 +10,6 @@ import com.example.sookLog.domain.diary.domain.Diary;
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
 	long countByFeeling(String feeling);
 	List<Diary> findByDateTimeBetween(LocalDateTime startDateTime, LocalDateTime endDateTime);
+
 }
 
