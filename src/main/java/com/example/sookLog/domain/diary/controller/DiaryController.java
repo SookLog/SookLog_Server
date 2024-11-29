@@ -19,6 +19,7 @@ import com.example.sookLog.domain.diary.dto.DiaryDTO;
 import com.example.sookLog.domain.diary.service.DiaryService;
 import com.example.sookLog.domain.member.repository.MemberRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -29,6 +30,7 @@ public class DiaryController {
 	private final MemberRepository memberRepository;
 
 
+	@Operation(summary = "다이어리 작성하고 완료 버튼 누르면 이거 api 쓰면 됨", description = "다이어리 쓴 글 넘겨주면 바로 감정분석 결과 나옴")
 	@PostMapping
 	public ResponseEntity<ApiResponse<DiaryDTO.ModelResponse>> createDiary(
 		@RequestBody DiaryDTO.DiaryRequest request,
@@ -43,6 +45,7 @@ public class DiaryController {
 		return ResponseEntity.ok(ApiResponse.onSuccess(modelResponse));
 	}
 
+	@Operation(summary = "다이어리 상세조회", description = "그 id로는 다이어리 id주면 되고 다이어리 상세 조회임")
 	@GetMapping("/{id}")
 	public ResponseEntity<ApiResponse<DiaryDTO.DiaryResponse>> getDiaryById(@PathVariable Long id) {
 		DiaryDTO.DiaryResponse diary = diaryService.getDiaryById(id);
@@ -58,6 +61,7 @@ public class DiaryController {
 		return ResponseEntity.ok(ApiResponse.onSuccess(null));
 	}
 
+	@Operation(summary = "다이어리 한달 달력 감정 반환", description = "캘린더에서 한번에 감정 볼 수 있는 화면에서 쓰면 됨")
 	@GetMapping("/monthly-feelings")
 	public ResponseEntity<ApiResponse<List<DiaryDTO.FeelingResponse>>> getMonthlyFeelings(
 		@RequestParam int year,
@@ -68,6 +72,7 @@ public class DiaryController {
 	}
 
 
+	@Operation(summary = "짤 생성 api ", description = "짤 생성 api임 날짜 알려주면 그 날짜에 해당하는 감정을 기반으로 이미지 url로 반환됨")
 	@GetMapping("/image")
 	public ResponseEntity<ApiResponse<String>> getImageByDate(
 		@RequestParam LocalDate date
