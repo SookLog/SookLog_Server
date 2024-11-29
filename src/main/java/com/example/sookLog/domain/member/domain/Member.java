@@ -31,6 +31,9 @@ public class Member {
 
 	private String refreshToken;
 
+	@Column(nullable = false, columnDefinition = "INT DEFAULT 0")
+	private int happyCount = 0;
+
 	public void updateRefreshToken(String refreshToken) {
 		this.refreshToken = refreshToken;
 	}
