@@ -45,4 +45,12 @@ public class DiaryDTO {
 		private LocalDate date;    // 일기 작성 날짜
 		private String feeling;    // 감정
 	}
+
+	@Getter
+	@AllArgsConstructor
+	public static class ModelResponse {
+		private String feeling;    // 감정
+	}
+
+
 }
