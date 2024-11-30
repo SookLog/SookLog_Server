@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
 	private final TokenProvider tokenProvider;
-	private static final String URI = "/test";
+	private static final String FRONTEND_URL = "myapp://home";
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -29,7 +29,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 		tokenProvider.generateRefreshToken(authentication, accessToken);
 
 		// 토큰 전달을 위한 redirect
-		String redirectUrl = UriComponentsBuilder.fromUriString(URI)
+		String redirectUrl = UriComponentsBuilder.fromUriString(FRONTEND_URL)
 			.queryParam("accessToken", accessToken)
 			.build().toUriString();
 
