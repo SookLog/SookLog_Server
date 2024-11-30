@@ -29,7 +29,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 		tokenProvider.generateRefreshToken(authentication, accessToken);
 
 		// 토큰 전달을 위한 redirect
-		String redirectUrl = UriComponentsBuilder.fromUriString("myapp://home")
+		String redirectUrl = UriComponentsBuilder.fromUriString(URI)
 			.queryParam("accessToken", accessToken)
 			.build().toUriString();
 
