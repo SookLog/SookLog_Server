@@ -37,6 +37,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 		"/webjars/**",
 		"/api/sentiment/analyze",
 		"/api/diaries/**",
+		"/api/diaries",
 		"/api/tree/growth",
 		"/api/questions/random"
 	);
