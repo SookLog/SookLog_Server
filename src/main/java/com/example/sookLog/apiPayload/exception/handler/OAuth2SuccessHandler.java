@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
 	private final TokenProvider tokenProvider;
-	private static final String URI = "/test";
+	private static final String URI = "myapp://home";
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
