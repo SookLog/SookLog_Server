@@ -34,7 +34,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 		"/v3/api-docs/**",
 		"/swagger-resources/**",
 		"/v3/api-docs",
-		"/webjars/**"
+		"/webjars/**",
+		"/api/sentiment/analyze",
+		"/api/diaries/**",
+		"/api/tree/growth",
+		"/api/questions/random"
 	);
 
 	@Override

@@ -56,7 +56,7 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.authorizeHttpRequests(requests -> requests
-				.requestMatchers("/test", "/swagger-ui/index.html", "/swagger-ui/**", "/v3/api-docs/**","/swagger-resources/**", "/v3/api-docs", "/webjars/**"   ).permitAll()
+				.requestMatchers("/test", "/swagger-ui/index.html", "/swagger-ui/**", "/v3/api-docs/**","/swagger-resources/**", "/v3/api-docs", "/webjars/**", "/api/sentiment/analyze", "/api/diaries/**", "/api/tree/growth", "/api/questions/random").permitAll()
 				.anyRequest().authenticated()           // 나머지 URL은 인증 필요
 			)
 			.addFilterBefore(new TokenAuthenticationFilter(jwtTokenProvider()), UsernamePasswordAuthenticationFilter.class)
